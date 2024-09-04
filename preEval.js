@@ -1,4 +1,8 @@
-
+/*
+old_preval.js
+>updates> window.supportsTS got its initilization updated into a valid value, supporting undefined value, which the variable didn't support in the past; 
+requires diff with remote & then updated in remote 
+*/
 let ExecTrustedEval=false;
 let simpleEval=true; 
 // simpleEval's Existence is crucial because if ExecTrustedEval fails in the end
@@ -21,8 +25,13 @@ try { // trying simple eval
   try {// trying trustedtypes Eval 
 		// Dynamic code string
 		
-	//this will make us find out whether TS: TrustedScript can be enabled or is supported
-	window.supportsTS = Boolean(trustedTypes) ;//forces exiting ? 1:0 
+/* 	//this will make us find out whether TS: TrustedScript can be enabled or is supported
+	window.supportsTS = Boolean(trustedTypes) ;//forces exiting ? 1:0
+    //the problem with the syntax above is that it wouldn't work if trustedTypes is undefined throwing  */
+    window.supportsTS=(typeof trustedTypes =="undefined" ? false : true)
+    //here's an update fixing the undefined trustedTypes dilemna 
+    
+
 	if(!supportsTS)
 	throw new TypeError("This browser or webpage doesn't support TrustedScripts ");
 			//tested the try catch; if !supportsTS => catches error Trustedtype Failed
