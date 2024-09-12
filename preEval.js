@@ -1,10 +1,12 @@
 /*
-old_preval.js
+preEval.js
 >updates> window.supportsTS got its initilization updated into a valid value, supporting undefined value, which the variable didn't support in the past; 
-requires diff with remote & then updated in remote 
+requires diff with remote & then updated in remote; adding Evalfn on both routes simple eval x trustedEval ; adding Policy as global variable ; Adding more context to the Failed Trusted Type Evaluation catch error throw; Adding the TrustedEvalFn and adding more context to the TrustedEvalFn 
 */
 let ExecTrustedEval=false;
 let simpleEval=true; 
+let Evalfn;
+let Policy=undefined; 
 // simpleEval's Existence is crucial because if ExecTrustedEval fails in the end
 // then ExecTrusted on the other hand if eval is true => false 
 // one variable here with 2 different outcomes which means 
@@ -19,6 +21,7 @@ let simpleEval=true;
 try { // trying simple eval 
 	eval("")
 	console.log("Simple Eval works == ",!ExecTrustedEval)
+	Evalfn=eval; 
 } catch (error) {
 
 	simpleEval=false;
@@ -40,9 +43,30 @@ try { // trying simple eval
 	//else //else isn't even required
 	//window.code="1";
   //const codeString = `1`;
-  window.myPolicy=trustedTypes.createPolicy('myPolicy', {
+/*   window.myPolicy=trustedTypes.createPolicy('myPolicy', {
 	  createScript: (scriptContent) => scriptContent, // Allow creation of scripts
-  });;
+  });; */
+  Policy="myPolicy"; 
+  Evalfn=/* TrustedEvalfn */(s,policy=Policy)=>{
+window[policy]=trustedTypes.createPolicy(policy, {
+	createScript: (scriptContent) => scriptContent, // Allow creation of scripts
+});
+const trusted_s_code= window[policy].createScript(s); 
+ try 
+ 	{
+		let result= eval(trusted_s_code);
+		console.log("using: "+ policy)
+		console.log("Successful eval"); 
+		return result ;
+
+  	}
+	catch (error)
+	{//TrustedEvalfn has failed route below:
+		console.warn("policy context log; used policy is  `"+policy+"`")//policy context log;
+		throw new Error("TrustedEval function failed; "+error);
+	}
+  }
+  Evalfn("");
   // Wrap the code string with the policy
   //const trustedCode = myPolicy.createScript(code);
   
@@ -54,7 +78,7 @@ try { // trying simple eval
   console.log( " simple eval = "+simpleEval+" ; failed due to:",error,"trusted eval == ", ExecTrustedEval);
   } 
 	catch (error) {// trustedEval isn't working 
-	console.log(supportsTS,"trustedtype failed", error , "trusted eval == ", ExecTrustedEval);
+	console.log("This website supports TrustedTypes => ",supportsTS," => trustedtype Evaluation failed", error , "trusted eval == ", ExecTrustedEval);
 	  
 }//end of trustedEval try  
   
