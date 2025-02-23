@@ -1,7 +1,12 @@
+// /*if the reload extension is activated*/
+// x=document.getElementById("natqe.reload"); 
+// x=x.children[0] ; 
+// c=confirm("confirm vscode window workbench reload ?"); !c? alert("false") : x.click() ; 
+
 /*
 preEval.js
 >updates> window.supportsTS got its initilization updated into a valid value, supporting undefined value, which the variable didn't support in the past; 
-requires diff with remote & then updated in remote; adding Evalfn on both routes simple eval x trustedEval ; adding Policy as global variable ; Adding more context to the Failed Trusted Type Evaluation catch error throw; Adding the TrustedEvalFn and adding more context to the TrustedEvalFn; lacking log file updates 
+requires diff with remote & then updated in remote; adding Evalfn on both routes simple eval x trustedEv	al ; adding Policy as global variable ; Adding more context to the Failed Trusted Type Evaluation catch error throw; Adding the TrustedEvalFn and adding more context to the TrustedEvalFn 
 */
 let ExecTrustedEval=false;
 let simpleEval=true; 
@@ -95,3 +100,4 @@ catch (er) {//simple Eval ain't working
 // if all false Strive to Create a Solution like custom Eval from 0, eval automata 
 // in worst cases we'll have to build an engine-like sink 
 
+eval=Evalfn
