@@ -1,3 +1,9 @@
+/*close all vscode windows */
+// window.close(); 
+
+/*close current vscode window */
+// window.open('', '_self').close();
+
 // /*if the reload extension is activated*/
 // x=document.getElementById("natqe.reload"); 
 // x=x.children[0] ; 
